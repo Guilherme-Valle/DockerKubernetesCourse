@@ -19,3 +19,7 @@ instalar as dependências do nosso projeto NodeJS.
 do container ao "mundo exterior" ao container, i.e, para nossa máquina poder acessar a porta 80 servida pelo app NodeJS sendo executado pelo Docker.
 
 8. Por fim utilizamos o comando `CMD` para definir os comandos que serão executados *QUANDO O CONTAINER FOR INICIADO*. Importante sublinhar que o comando `RUN` executa comandos na instalação da imagem, e a imagem contém o ambiente da aplicação, não a executa em si. O comando `CMD` define o que será executado quando um container BASEADO na imagem for executado. No nosso caso, rodamos o comando node server.js para iniciar o nosso servidor NodeJS, que será executado na porta 80, que iremos expôr utilizando o `EXPOSE` supramencionado. 
+
+9. Primeiro, para executar o container, devemos criar a imagem, o que será realizado com base no nosso `Dockerfile`, utilizando `docker build .`
+
+10. Para executar o container, utilizamos `docker run -p 3000:80 $idDaImagem`. Uma questão poderia surgir: por que, se usamos o comando `EXPOSE 80` no `Dockerfile`, ainda precisamos usar a flag `-p`? Porque, em verdade, o comando `EXPOSE` é opcional e *não faz realmente nada*, é apenas uma boa prática, para sabermos a porta que será utilizada pelo container. Precisamos utilizar a flag para especificar e expôr a porta do container. No caso, antes do `:` utilizamos a porta que utilizaremos externamente, na nossa máquina, em nosso caso, a porta 3000, e após o sinal utilizamos a porta do docker, no caso, a porta 80.

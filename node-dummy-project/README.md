@@ -25,3 +25,12 @@ do container ao "mundo exterior" ao container, i.e, para nossa máquina poder ac
 10. Para executar o container, utilizamos `docker run -p 3000:80 $idDaImagem`. Uma questão poderia surgir: por que, se usamos o comando `EXPOSE 80` no `Dockerfile`, ainda precisamos usar a flag `-p`? Porque, em verdade, o comando `EXPOSE` é opcional e *não faz realmente nada*, é apenas uma boa prática, para sabermos a porta que será utilizada pelo container. Precisamos utilizar a flag para especificar e expôr a porta do container. No caso, antes do `:` utilizamos a porta que utilizaremos externamente, na nossa máquina, em nosso caso, a porta 3000, e após o sinal utilizamos a porta do docker, no caso, a porta 80.
 
 11. Para otimizar a imagem, utilizamos o comando `COPY package.json /app` e o `RUN npm install` antes do `COPY /app`, para que, ao buildar a imagem novamente após alterar o código, o Docker utilize o cache proveniente do npm install anteriormente executado. Antes, quando utilizávamos simplesmente o `COPY /app` antes do npm install, o Docker verificava que um arquivo havia sido modificado dentro do diretório, e por isso reexecutava o npm install novamente, devido ao modo de funcionamento dos Docker Layers (uma vez que uma layer anterior continha modificação de código, o Docker não utilizava o cache em comandos posteriores, i.e no npm instal, que é o que consome mais tempo). 
+
+
+# "Every instruction in an image creates a cacheable layer - layers help with image re-building and sharing."
+
+## Attached and detached containers
+
+ - Um container, quando executado utilizando o comando `docker run $idDaImagem`, é executado, por padrão, no modo "attached", i.e, todas as mensagens, logs etc serão exibidas no terminal em que foi executado o comando; este terminal fica "preso" ao container. Se, porém, queremos executar no modo "detached", ou seja, rodar no background o container, podemos utilizar tanto o comando `docker run -d $idDaImagem` quando o `docker start $idDoContainer`, ou, caso tenhamos um container já em modo detached, podemos utilizar o comando `docker attach $container` para vincular ele ao nosso terminal, ou mesmo utilizar o comando `docker logs $container` para ver as mensagens já exibidas nele. 
+
+ Sempre é possível utilizar o comando `docker $command --help` para saber mais detalhes e opções dos comandos!
